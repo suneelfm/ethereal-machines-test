@@ -4,6 +4,7 @@
   justify-content: space-between;
   height: 100vh;
   width: calc(100vw - 40px);
+  padding: 20px 25px;
 }
 
 .navBar {
