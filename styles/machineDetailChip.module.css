@@ -1,0 +1,17 @@
+.chipContainer {
+  background-color: #2d2d2d;
+  border: 1px solid #3a3a3a;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 10px;
+  color: white;
+  padding-top: 2px;
+}
+
+.chipContainer > div {
+  border: 1px solid #3a3a3a;
+  border-radius: 4px;
+  padding: 5px 0px;
+  margin: 2px 0px -1px 0px;
+  background-color: #333333;
+}
