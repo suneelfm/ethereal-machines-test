@@ -1,0 +1,58 @@
+.card {
+  background-color: var(--background-secondary) !important;
+  box-shadow: 0px 0px 5px #101010 !important;
+  padding: 8px 10px 10px 20px;
+  height: 100%;
+}
+.helpIcon {
+  font-size: 15px !important;
+  color: var(--text-color-gray);
+}
+
+.content {
+  color: white;
+  font-weight: bold !important;
+}
+
+.label {
+  color: var(--text-color-gray);
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+.improvement {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.cardTitle {
+  font-size: 12px !important;
+}
+
+.productivityChartWrapper {
+  height: 100% !important;
+  width: 100px !important;
+  position: absolute;
+  left: 0px;
+  display: flex;
+  align-items: center;
+}
+
+.productivityChart {
+  height: 100px !important;
+  width: 100px !important;
+}
+
+.productivityTimeCard {
+  background-color: #333333 !important;
+  box-shadow: none !important;
+  padding: 5px;
+}
+
+.productivityStatus {
+  font-size: 10px;
+  color: var(--text-color-gray);
+  font-weight: 600;
+}
