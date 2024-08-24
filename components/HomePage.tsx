@@ -37,10 +37,22 @@ export default function HomePage() {
     const threeDayAgo = new Date();
     threeDayAgo.setDate(today.getDate() - 3);
     const labels = [
-      `${threeDayAgo.getMonth()}/${threeDayAgo.getDate()}`,
-      `${twoDayAgo.getMonth()}/${twoDayAgo.getDate()}`,
-      `${oneDayAgo.getMonth()}/${oneDayAgo.getDate()}`,
-      `${today.getMonth()}/${today.getDate()}`,
+      `${threeDayAgo.getMonth().toString().padStart(2, "0")}/${threeDayAgo
+        .getDate()
+        .toString()
+        .padStart(2, "0")}`,
+      `${twoDayAgo.getMonth().toString().padStart(2, "0")}/${twoDayAgo
+        .getDate()
+        .toString()
+        .padStart(2, "0")}`,
+      `${oneDayAgo.getMonth().toString().padStart(2, "0")}/${oneDayAgo
+        .getDate()
+        .toString()
+        .padStart(2, "0")}`,
+      `${today.getMonth().toString().padStart(2, "0")}/${today
+        .getDate()
+        .toString()
+        .padStart(2, "0")}`,
     ];
     const lineChart = new Chart(
       document.getElementById("lineChart") as ChartItem,
@@ -90,10 +102,10 @@ export default function HomePage() {
               <Grid container justifyContent={"flex-end"}>
                 <HelpOutlineRounded className={styles.helpIcon} />
               </Grid>
-              <Typography variant="h4" className={styles.content}>
+              <Typography variant="h4" pl={1} className={styles.content}>
                 20%
               </Typography>
-              <Grid container alignItems={"center"}>
+              <Grid container pl={1} alignItems={"center"}>
                 <span className={styles.label}>Active</span>
                 <span
                   className={styles.improvement}
@@ -169,7 +181,47 @@ export default function HomePage() {
         </Grid>
         <Grid item xs={12} lg={4}>
           <Card className={styles.card}>
-            <canvas id="lineChart"></canvas>
+            <canvas id="lineChart" className={styles.lineChart}></canvas>
+          </Card>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <Card className={styles.card}>
+            <Grid
+              className={`${styles.cardTitle} ${styles.content}`}
+              height={"25px"}
+            >
+              Alarms
+            </Grid>
+            <Grid height={"calc(100% - 25px)"} overflow={"auto"}>
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Card
+                  key={i}
+                  className={styles.productivityTimeCard}
+                  sx={{
+                    borderLeft: "6px solid #434444",
+                    color: "white",
+                    marginY: "5px",
+                  }}
+                >
+                  <Grid container>
+                    <Grid item xs={10}>
+                      <Grid fontSize={"12px"}>Machine Name</Grid>
+                      <Grid fontSize={"10px"}>Alarm message</Grid>
+                    </Grid>
+                    <Grid
+                      item
+                      container
+                      justifyContent={"flex-end"}
+                      fontSize={"10px"}
+                      color={"#606060"}
+                      xs={2}
+                    >
+                      07/24 09:03
+                    </Grid>
+                  </Grid>
+                </Card>
+              ))}
+            </Grid>
           </Card>
         </Grid>
       </Grid>
