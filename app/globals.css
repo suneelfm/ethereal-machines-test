@@ -80,6 +80,14 @@
   margin: 0;
 }
 
+::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #606060;
+}
+
 html,
 body {
   display: flex;
