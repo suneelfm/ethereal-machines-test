@@ -61,3 +61,27 @@
 .lineChart {
   width: 100% !important;
 }
+
+.machineDetailsHead {
+  color: #606060;
+  font-size: 12px;
+  border-bottom: 1px solid #434444;
+  padding-bottom: 8px;
+}
+
+.statusChip {
+  border: 1px solid;
+  font-size: 10px;
+  width: 50px;
+  border-radius: 4px;
+  padding: 2px;
+  text-align: center;
+}
+
+.progressBar {
+  border-radius: 5px !important;
+  background-color: #313131 !important;
+  width: 80px;
+  height: 6px !important;
+  margin-right: 10px;
+}
