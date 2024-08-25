@@ -27,7 +27,6 @@ export default function NavBar() {
     { icon: <DescriptionRounded />, path: "/npoa/4" },
     { icon: <ShowChartRounded />, path: "/npoa/5" },
   ];
-  console.log(pathName);
 
   return (
     <nav className={styles.navBar}>

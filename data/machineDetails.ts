@@ -139,10 +139,10 @@ export const MACHINE_DETAILS: IMachineDetails[] = [
     mode: "MEM",
     program: "09001",
     toolCount: 1,
-    partsCount: 188,
+    partsCount: 1205,
     partsCompleted: 2,
     partGoal: 0,
-    spindle: 1,
+    spindle: 7999,
     statusLogs: [
       {
         status: "active",
