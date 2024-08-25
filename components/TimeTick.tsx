@@ -4,9 +4,11 @@ import React, { useEffect, useState } from "react";
 export default function TimeTick({
   time,
   position,
+  machineIndex,
 }: {
   time: string;
   position: number;
+  machineIndex?: string | number;
 }) {
   const [left, setLeft] = useState(0);
   useEffect(() => {
@@ -16,7 +18,7 @@ export default function TimeTick({
 
   return (
     <Grid
-      id={time}
+      id={`${time}-${machineIndex}`}
       position={"absolute"}
       borderLeft={time === "Now" ? "2px solid #bca179" : "1px solid #33333380"}
       left={`${position}px`}

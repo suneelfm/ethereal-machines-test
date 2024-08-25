@@ -74,7 +74,7 @@ export default function HomePage() {
         reqDate.getFullYear() === statusDate.getFullYear()
       );
     });
-    console.log("statusLogsForDate", statusLogsForDate);
+
     statusLogsForDate.forEach((log) => {
       const fromToDiffInMs =
         ((!log.to || log.to.toLowerCase() === "now"
@@ -111,7 +111,10 @@ export default function HomePage() {
 
   const convertMinToHoursFormat = (min: number) => {
     const hr = Math.floor(min / 60);
-    return `${hr > 0 ? hr + "h " : ""}${min - hr * 60}m`;
+    const remainingMin = min - hr * 60;
+    return `${hr > 0 ? hr + "h " : ""}${
+      remainingMin > 0 || hr <= 0 ? remainingMin + "m" : ""
+    }`;
   };
 
   const getTotalStatusTimingByDate = (date: string) => {
@@ -251,6 +254,26 @@ export default function HomePage() {
     {
       label: "Active",
       value: `${Math.round((totalActiveTime * 100) / totalMachineTime)}%`,
+      improvement: (): {
+        value: string;
+        isImproved: boolean;
+        isArrowUp: boolean;
+      } => {
+        const date1 = new Date(now);
+        date1.setDate(date1.getDate() - 1);
+        const timing1 = getTotalStatusTimingByDate(date1.toString());
+        const timing2 = getTotalStatusTimingByDate(now);
+
+        const value = Math.round(
+          (timing1.totalActiveMin * 100) / timing1.totalMachineMin -
+            (timing2.totalActiveMin * 100) / timing2.totalMachineMin
+        );
+        return {
+          value: Math.abs(value) + "%",
+          isImproved: value > 0,
+          isArrowUp: value > 0,
+        };
+      },
     },
     {
       label: "Setup",
@@ -259,14 +282,70 @@ export default function HomePage() {
     {
       label: "Stall",
       value: `${Math.round((totalStalledTime * 100) / totalMachineTime)}%`,
+      improvement: (): {
+        value: string;
+        isImproved: boolean;
+        isArrowUp: boolean;
+      } => {
+        const date1 = new Date(now);
+        date1.setDate(date1.getDate() - 1);
+        const timing1 = getTotalStatusTimingByDate(date1.toString());
+        const timing2 = getTotalStatusTimingByDate(now);
+
+        const value = Math.round(
+          (timing1.totalStalledMin * 100) / timing1.totalMachineMin -
+            (timing2.totalStalledMin * 100) / timing2.totalMachineMin
+        );
+        return {
+          value: Math.abs(value) + "%",
+          isImproved: value < 0,
+          isArrowUp: value > 0,
+        };
+      },
     },
     {
       label: "Machine Hours",
       value: convertMinToHoursFormat(totalMachineTime),
+      improvement: (): {
+        value: string;
+        isImproved: boolean;
+        isArrowUp: boolean;
+      } => {
+        const date1 = new Date(now);
+        date1.setDate(date1.getDate() - 1);
+        const timing1 = getTotalStatusTimingByDate(date1.toString());
+        const timing2 = getTotalStatusTimingByDate(now);
+
+        const value = timing1.totalMachineMin - timing2.totalMachineMin;
+
+        return {
+          value: convertMinToHoursFormat(Math.abs(value)),
+          isImproved: value > 0,
+          isArrowUp: value > 0,
+        };
+      },
     },
     {
       label: "Time Stalled",
       value: totalStalledTime + "min",
+      improvement: (): {
+        value: string;
+        isImproved: boolean;
+        isArrowUp: boolean;
+      } => {
+        const date1 = new Date(now);
+        date1.setDate(date1.getDate() - 1);
+        const timing1 = getTotalStatusTimingByDate(date1.toString());
+        const timing2 = getTotalStatusTimingByDate(now);
+
+        const value = timing1.totalStalledMin - timing2.totalStalledMin;
+
+        return {
+          value: Math.abs(value) + "min",
+          isImproved: value < 0,
+          isArrowUp: value > 0,
+        };
+      },
     },
     {
       label: "Parts Made",
@@ -279,7 +358,7 @@ export default function HomePage() {
   return (
     <Box>
       <Grid container spacing={2}>
-        {NUMERICS.map(({ label, value }, i) => (
+        {NUMERICS.map(({ label, value, improvement }, i) => (
           <Grid key={i} item xs={12} md={4} lg={2}>
             <Card className={styles.card}>
               <Grid container justifyContent={"flex-end"}>
@@ -290,17 +369,21 @@ export default function HomePage() {
               </Typography>
               <Grid container pl={1} alignItems={"center"}>
                 <span className={styles.label}>{label}</span>
-                <span
-                  className={styles.improvement}
-                  style={{ color: true ? "#4a7955" : "#964244" }}
-                >
-                  {true ? (
-                    <ArrowDropUpOutlined sx={{ fontSize: "15px" }} />
-                  ) : (
-                    <ArrowDropDownOutlined sx={{ fontSize: "15px" }} />
-                  )}
-                  20%
-                </span>
+                {improvement && (
+                  <span
+                    className={styles.improvement}
+                    style={{
+                      color: improvement().isImproved ? "#4a7955" : "#964244",
+                    }}
+                  >
+                    {improvement().isArrowUp ? (
+                      <ArrowDropUpOutlined sx={{ fontSize: "15px" }} />
+                    ) : (
+                      <ArrowDropDownOutlined sx={{ fontSize: "15px" }} />
+                    )}
+                    {improvement().value}
+                  </span>
+                )}
               </Grid>
             </Card>
           </Grid>
@@ -416,6 +499,9 @@ export default function HomePage() {
             </Grid>
             <Grid height={"calc(100% - 20px)"} overflow={"auto"}>
               {MACHINE_DETAILS.map((detail, i) => {
+                document
+                  .getElementById(`Now-${i}`)
+                  ?.scrollIntoView({ block: "center" });
                 const { status, activeMin, loadingMin, setupMin, stallMin } =
                   getMachineTimeAndStatus(detail.statusLogs, now);
                 return (
@@ -544,12 +630,12 @@ export default function HomePage() {
                             width={"1440px"}
                             height={"50px"}
                           >
-                            {detail.statusLogs.map((status, i) => {
+                            {detail.statusLogs.map((status, ind) => {
                               const { color, position, width } =
                                 getStatusDetails(status);
                               return (
                                 <Grid
-                                  key={i}
+                                  key={ind}
                                   position={"absolute"}
                                   height={"100%"}
                                   width={`${width}px`}
@@ -558,16 +644,17 @@ export default function HomePage() {
                                 />
                               );
                             })}
-                            {Array.from(Array(24)).map((e, i) => (
+                            {Array.from(Array(24)).map((e, ind) => (
                               <TimeTick
-                                key={`tick-${i}`}
+                                key={`tick-${ind}`}
                                 time={`${
-                                  i - 12 <= 0 ? i + "AM" : i - 12 + "PM"
+                                  ind - 12 <= 0 ? ind + "AM" : ind - 12 + "PM"
                                 }`}
-                                position={i * 60}
+                                position={ind * 60}
                               />
                             ))}
                             <TimeTick
+                              machineIndex={i}
                               position={
                                 getStatusDetails({
                                   from: now,
@@ -594,8 +681,21 @@ export default function HomePage() {
                             color={"#606060"}
                             fontSize={"15px"}
                             height={"50px"}
+                            position={"relative"}
                           >
                             <Search fontSize="inherit" color="inherit" />
+                            <Grid
+                              position={"absolute"}
+                              left={"-50px"}
+                              bottom={"5px"}
+                              fontSize={"10px"}
+                              color={"white"}
+                              bgcolor={"#202020a1"}
+                              padding={"2px 5px"}
+                              borderRadius={"4px"}
+                            >
+                              {detail.partsCount - detail.partsCompleted}
+                            </Grid>
                           </Grid>
                           <Grid
                             width={"100%"}
