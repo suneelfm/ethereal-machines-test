@@ -55,6 +55,9 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
    ]
    ```
 
+## The hosted application URL
+https://ethereal-machines-test.vercel.app/
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
