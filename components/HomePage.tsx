@@ -499,9 +499,6 @@ export default function HomePage() {
             </Grid>
             <Grid height={"calc(100% - 20px)"} overflow={"auto"}>
               {MACHINE_DETAILS.map((detail, i) => {
-                document
-                  .getElementById(`Now-${i}`)
-                  ?.scrollIntoView({ block: "center" });
                 const { status, activeMin, loadingMin, setupMin, stallMin } =
                   getMachineTimeAndStatus(detail.statusLogs, now);
                 return (

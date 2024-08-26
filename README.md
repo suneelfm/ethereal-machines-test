@@ -20,6 +20,41 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+## APIs required
+
+1. ### GET `/alarms`
+   ```JSON
+   [
+    {
+      "machine": "string", // Machine name. ex: HALO - 01
+      "at": "string", // Time of alarm. ex: Sat Aug 24 2024 09:03:00 GMT+0530 (India Standard Time)
+      "alarmMessage": "string", // Message of the alarm. ex: Alarm on Machine 1: 501-(XI)-OVERTRAVEL (SOFT 1)
+    }
+   ]
+   ```
+2. ### GET `/machines`
+   ```JSON
+   [
+    {
+      "machineName": "string", // Machine name. ex: "NIMBUS - 09"
+      "mode": "string", // Mode of the machinr. ex: "MEM"
+      "program": "string", // Program of the machine. ex: "09001"
+      "toolCount": "number", // No. of tools in machine. ex: 1
+      "partsCount": "number", // No. of parts loaded. ex: 1205
+      "partsCompleted": "number", // No. of parts complted. ex: 2
+      "partGoal": "number", // No. of parts to be completed in given time. ex: 0
+      "spindle": "number", // No. of spindles in machine. ex: 7999
+      "statusLogs": [
+        {
+          "status": "string", // Status of the machine for the time. ex: "active"
+          "from": "string", // The time of when the machine went to the status. ex: "Thu Aug 22 2024 01:03:00 GMT+0530 (India Standard Time)"
+          "to": "string", // The time of till the machine be in the status. ex: "Thu Aug 22 2024 05:03:00 GMT+0530 (India Standard Time)"
+        },
+      ],
+    },
+   ]
+   ```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
