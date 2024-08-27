@@ -359,7 +359,7 @@ export default function HomePage() {
     <Box>
       <Grid container spacing={2}>
         {NUMERICS.map(({ label, value, improvement }, i) => (
-          <Grid key={i} item xs={12} md={4} lg={2}>
+          <Grid key={i} item xs={12} sm={6} md={4} lg={2}>
             <Card className={styles.card}>
               <Grid container justifyContent={"flex-end"}>
                 <HelpOutlineRounded className={styles.helpIcon} />
@@ -481,19 +481,19 @@ export default function HomePage() {
         <Grid item xs={12}>
           <Card className={styles.card} sx={{ maxHeight: "300px !important" }}>
             <Grid container className={styles.machineDetailsHead}>
-              <Grid item xs={1} paddingX={"5px"}>
+              <Grid xs={3} sm={2} md={1} className={styles.overflowEllipse}>
                 Machines
               </Grid>
-              <Grid item xs={1} paddingX={"5px"}>
+              <Grid xs={3} sm={2} md={1} className={styles.overflowEllipse}>
                 Status
               </Grid>
-              <Grid item xs={1} md={2} paddingX={"5px"}>
+              <Grid xs={2} md={2} className={styles.overflowEllipse}>
                 Cycle Progress
               </Grid>
-              <Grid item xs={2} paddingX={"5px"}>
+              <Grid xs={3} md={2} className={styles.overflowEllipse}>
                 Production Progress
               </Grid>
-              <Grid item xs={6} md={5} paddingX={"5px"}>
+              <Grid xs={1} sm={3} md={6} className={styles.overflowEllipse}>
                 Production Remaining
               </Grid>
             </Grid>
@@ -509,10 +509,21 @@ export default function HomePage() {
                       alignItems={"center"}
                       pt={1}
                     >
-                      <Grid item xs={1} paddingX={"5px"} fontSize={"12px"}>
+                      <Grid
+                        xs={3}
+                        sm={2}
+                        md={1}
+                        className={styles.overflowEllipse}
+                        fontSize={"12px"}
+                      >
                         {detail.machineName}
                       </Grid>
-                      <Grid item xs={1} paddingX={"5px"}>
+                      <Grid
+                        xs={3}
+                        sm={2}
+                        md={1}
+                        className={styles.overflowEllipse}
+                      >
                         <div
                           className={styles.statusChip}
                           style={{
@@ -522,7 +533,7 @@ export default function HomePage() {
                           {status}
                         </div>
                       </Grid>
-                      <Grid item xs={1} md={2} paddingX={"5px"}>
+                      <Grid xs={2} md={2} className={styles.overflowEllipse}>
                         <LinearProgress
                           color="success"
                           className={styles.progressBar}
@@ -531,26 +542,26 @@ export default function HomePage() {
                         />
                       </Grid>
                       <Grid
-                        item
                         container
-                        xs={2}
-                        fontSize={"12px"}
+                        xs={3}
+                        md={2}
+                        fontSize={{ xs: "8px", sm: "12px" }}
                         paddingX={"5px"}
                         alignItems={"center"}
                       >
                         <LinearProgress
                           color="success"
+                          sx={{ width: "50%" }}
                           className={styles.progressBar}
                           variant="determinate"
                           value={100}
                         />
                         100%
                       </Grid>
-                      <Grid item xs={6} md={5} paddingX={"5px"}></Grid>
                     </Grid>
                     <Grid container py={2} borderBottom={"1px solid #434444"}>
-                      <Grid container item xs={5}>
-                        <Grid item container xs={6} px={1}>
+                      <Grid container item xs={12} md={6} lg={5}>
+                        <Grid item container xs={12} sm={6} px={1} mb={1}>
                           <Grid item xs={4} padding={"2px 4px"}>
                             <MachineDetailChip
                               detail={detail.mode}
@@ -588,7 +599,7 @@ export default function HomePage() {
                             />
                           </Grid>
                         </Grid>
-                        <Grid item container xs={6} px={1}>
+                        <Grid item container xs={12} sm={6} px={1} mb={1}>
                           <Grid item xs={6} padding={"5px 6px"}>
                             <MachineTimingCard
                               status="Active"
@@ -615,7 +626,7 @@ export default function HomePage() {
                           </Grid>
                         </Grid>
                       </Grid>
-                      <Grid item display={"flex"} xs={7}>
+                      <Grid item display={"flex"} xs={12} md={6} lg={7}>
                         <Grid
                           width={"calc(100% - 25px)"}
                           height={"85px"}
